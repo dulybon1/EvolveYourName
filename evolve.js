@@ -35,6 +35,36 @@ function sortPopulation(population)
 	});
 }
 
+function getTheBest(sortedPopulation)
+{
+	const best = sortedPopulation[0];
+	return best;
+}
+
+function getAllTheBests(sortedPopulation)
+{
+	var i = 0;
+	var bests = [];
+	while(sortedPopulation[i].fitness == getTheBest(sortedPopulation).fitness)
+	{
+		bests.push(sortedPopulation[i]);
+		i++;
+	}
+	return bests;
+}
+
+function getAllValuables(sortedPopulation)
+{
+	var i = 0;
+	var valuables = [];
+	while(sortedPopulation[i].fitness != 0)
+	{
+		valuables.push(sortedPopulation[i]);
+		i++;
+	}
+	return valuables;
+}
+
 //WORKING!!
 function generateNamePopulation(name)
 {
@@ -156,23 +186,24 @@ function calculateFitnessForAll(fitnessMeasure, population)
 
 // DEBUG AREA
 
-generateNamePopulation("duly");
+const name = "duly";
 
-//console.log("before crossover: " + population[0].name+ "--" +population[1].name);
+generateNamePopulation(name);
 
 crossover50(population[0],population[1]);
 mutatePopulation(population);
-//indexThePopulation(population);
 
-//console.log("after crossover: " + population[0].name+ "--" +population[1].name);
-
-calculateFitness("duly", population[0]);
-
-calculateFitnessForAll("duly",population);
+calculateFitnessForAll(name,population);
 
 sortPopulation(population)
 
 console.log(population);
+
+console.log(getTheBest(population));
+console.log(getAllTheBests(population));
+console.log(getAllValuables(population));
+
+
 
 
 //console.log(population);
