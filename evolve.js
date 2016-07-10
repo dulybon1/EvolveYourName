@@ -1,4 +1,5 @@
 var alphabet = "abcdefghijklmnopqrstuvwxyz";
+const maxPopulationSize = 1000;
 var population = [];
 
 
@@ -24,6 +25,7 @@ function indexThePopulation(population)
 	}
 }
 
+// this function sorts the population based on the fitness property
 function sortPopulation(population)
 {
 	population.sort(function(a, b)
@@ -35,12 +37,14 @@ function sortPopulation(population)
 	});
 }
 
+// gets the best fitted individual
 function getTheBest(sortedPopulation)
 {
 	const best = sortedPopulation[0];
 	return best;
 }
 
+// gets all the individuals that match the best in fitness
 function getAllTheBests(sortedPopulation)
 {
 	var i = 0;
@@ -53,6 +57,7 @@ function getAllTheBests(sortedPopulation)
 	return bests;
 }
 
+// gets all the individuals whose fitness are not 0;
 function getAllValuables(sortedPopulation)
 {
 	var i = 0;
@@ -65,12 +70,48 @@ function getAllValuables(sortedPopulation)
 	return valuables;
 }
 
-//WORKING!!
+// calculates the fitness of an individual and assigns it to the property fitness
+function calculateFitness(fitnessMeasure, toMeasure)
+{
+	// console.log(typeof(toMeasure));
+	var count = 0;
+	for (var i = 0; i < fitnessMeasure.length; i++)
+	{
+		if (fitnessMeasure.charAt(i) == toMeasure.name.charAt(i))
+		{
+			count +=1;
+		}
+	}
+	toMeasure.fitness = count;
+	//console.log(toMeasure);
+}
+
+// this function generates and return an individual
+function generateIndividual(name)
+{
+	const nameSize = name.length;
+	var individualName = "";
+	for (var i = 0; i < nameSize; i++) 
+	{
+		individualName = individualName + alphabet[Math.floor(getRandomArbitrary(0,26))];
+	}
+
+	var obj = {};
+	obj.name = individualName;
+
+	calculateFitness(name, obj);
+
+	//obj.fitness = 0;
+
+	return obj;
+}
+
+// this function generates a population
 function generateNamePopulation(name)
 {
 	const nameSize = name.length;
 
-	for (var i = 0; i < 1000; i++) 
+	for (var i = 0; i < maxPopulationSize; i++) 
 	{
 		//console.log("big for loop entered");
 		var name = "";
@@ -90,20 +131,7 @@ function generateNamePopulation(name)
 	
 }
 
-function calculateFitness(fitnessMeasure, toMeasure)
-{
-	// console.log(typeof(toMeasure));
-	var count = 0;
-	for (var i = 0; i < fitnessMeasure.length; i++)
-	{
-		if (fitnessMeasure.charAt(i) == toMeasure.name.charAt(i))
-		{
-			count +=1;
-		}
-	}
-	toMeasure.fitness = count;
-	//console.log(toMeasure);
-}
+
 
 
 // mutate an individual at one location WORKING!!
@@ -128,8 +156,6 @@ function mutateIndividual(individual)
 	//console.log(individual.name);
 
 }
-
-
 
 // mutate the whole population using mutate individual WORKING!!
 function mutatePopulation(population)
@@ -184,6 +210,38 @@ function calculateFitnessForAll(fitnessMeasure, population)
 	}
 }
 
+// performs the crossover in a population
+function performCrossover(sortedPopulation)
+{
+	var allBest = getAllTheBests(sortedPopulation);
+	var allVal = getAllValuables(sortedPopulation);
+
+	for (var i = 0; i < allBest.length; i++) 
+	{
+		
+
+		for (var j = 0; j < allVal.length; j++) 
+		{
+			//create new objects to avoid modifying existing individuals
+			var best = Object.create(allBest[i]);
+			var val = Object.create(allVal[j]);
+
+
+			crossover50(best, val);
+
+			sortedPopulation.push(best);
+			sortedPopulation.push(val);
+
+			// console.log("best: ");
+			// console.log(best);
+
+			// console.log("val: ");
+			// console.log(val);		
+		}
+	}
+
+}
+
 // DEBUG AREA
 
 const name = "duly";
@@ -197,13 +255,15 @@ calculateFitnessForAll(name,population);
 
 sortPopulation(population)
 
+console.log(population.length);
+
+performCrossover(population);
+
+console.log(population.length);
+
+// console.log(getTheBest(population));
+// console.log(getAllTheBests(population));
+// console.log(getAllValuables(population));
+console.log(generateIndividual("boom"));
+
 console.log(population);
-
-console.log(getTheBest(population));
-console.log(getAllTheBests(population));
-console.log(getAllValuables(population));
-
-
-
-
-//console.log(population);
