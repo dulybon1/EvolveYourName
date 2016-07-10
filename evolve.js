@@ -1,4 +1,5 @@
 var alphabet = "abcdefghijklmnopqrstuvwxyz";
+const initialPopulationSize = 1000;
 const maxPopulationSize = 1000;
 var population = [];
 
@@ -47,12 +48,19 @@ function getTheBest(sortedPopulation)
 // gets all the individuals that match the best in fitness
 function getAllTheBests(sortedPopulation)
 {
-	var i = 0;
+	//var i = 0;
 	var bests = [];
-	while(sortedPopulation[i].fitness == getTheBest(sortedPopulation).fitness)
+	// while(sortedPopulation[i].fitness == getTheBest(sortedPopulation).fitness)
+	// {
+	// 	bests.push(sortedPopulation[i]);
+	// 	i++;
+	// }
+
+	for (var i = 0; i < sortedPopulation.length; i++) 
 	{
-		bests.push(sortedPopulation[i]);
-		i++;
+		if(sortedPopulation[i].fitness == getTheBest(sortedPopulation).fitness){
+			bests.push(sortedPopulation[i]);
+		}
 	}
 	return bests;
 }
@@ -60,12 +68,19 @@ function getAllTheBests(sortedPopulation)
 // gets all the individuals whose fitness are not 0;
 function getAllValuables(sortedPopulation)
 {
-	var i = 0;
+	//var i = 0;
 	var valuables = [];
-	while(sortedPopulation[i].fitness != 0)
+	// while(sortedPopulation[i].fitness > 0)
+	// {
+	// 	valuables.push(sortedPopulation[i]);
+	// 	i++;
+	// }
+
+	for (var i = 0; i < sortedPopulation.length; i++) 
 	{
-		valuables.push(sortedPopulation[i]);
-		i++;
+		if (sortedPopulation[i].fitness > 1) {
+			valuables.push(sortedPopulation[i]);
+		}
 	}
 	return valuables;
 }
@@ -111,7 +126,7 @@ function generateNamePopulation(name)
 {
 	const nameSize = name.length;
 
-	for (var i = 0; i < maxPopulationSize; i++) 
+	for (var i = 0; i < initialPopulationSize; i++) 
 	{
 		//console.log("big for loop entered");
 		var name = "";
@@ -242,28 +257,93 @@ function performCrossover(sortedPopulation)
 
 }
 
+function evolve(name)
+{
+	var fitnessLevel = 0;
+
+	//generate the population
+	generateNamePopulation(name);
+
+	//calculate their fitness
+	calculateFitnessForAll(name, population);
+
+	//sort based on fitness
+	sortPopulation(population);
+
+	// get the best
+	var best = getTheBest(population);
+
+	//while the best fitness < name.length
+	while(best.fitness < name.length)
+	{
+		// mutate
+		mutatePopulation(population);
+
+		// perform crossover
+		performCrossover(population);
+
+		//calculate their fitness
+		calculateFitnessForAll(name, population);
+
+		//sort based on fitness
+		sortPopulation(population);
+
+		// the best element
+		best = getTheBest(population);
+
+		// length of valuables array
+		var valuablesLength = getAllValuables(population).length;
+
+		console.log("valuables: " + valuablesLength);
+
+		console.log(population.length);
+
+		//population = population.slice(0, valuablesLength);
+
+		// limit population to 100000
+		population = population.slice(0, maxPopulationSize);
+
+		console.log(best);
+		console.log(population.length);
+
+		//console.log(population)
+
+		// while(fitnessLevel < name.length/4)
+		// {
+		// 	console.log("fitnessLevel: "+fitnessLevel);
+		// 	fitnessLevel++;
+		// 	console.log("fitnessLevel: "+fitnessLevel);
+		// }
+
+		
+	}
+
+	return best;
+		
+
+}
+
 // DEBUG AREA
 
-const name = "duly";
 
-generateNamePopulation(name);
 
-crossover50(population[0],population[1]);
-mutatePopulation(population);
 
-calculateFitnessForAll(name,population);
+// crossover50(population[0],population[1]);
+// mutatePopulation(population);
 
-sortPopulation(population)
+// calculateFitnessForAll(name,population);
 
-console.log(population.length);
+// sortPopulation(population)
 
-performCrossover(population);
+// console.log(population.length);
 
-console.log(population.length);
+// performCrossover(population);
+
+// console.log(population.length);
 
 // console.log(getTheBest(population));
 // console.log(getAllTheBests(population));
 // console.log(getAllValuables(population));
-console.log(generateIndividual("boom"));
+//console.log(generateIndividual("boom"));
 
-console.log(population);
+console.log(evolve("adrianleonardskiljabonheur"));
