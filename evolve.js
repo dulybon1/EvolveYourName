@@ -1,4 +1,4 @@
-var alphabet = "abcdefghijklmnopqrstuvwxyz ";
+var alphabet = "abcdefghijklmnopqrstuvwxyz -";
 const initialPopulationSize = 1000;
 const maxPopulationSize = 1000;
 var population = [];
@@ -108,7 +108,7 @@ function generateIndividual(name)
 	var individualName = "";
 	for (var i = 0; i < nameSize; i++) 
 	{
-		individualName = individualName + alphabet[Math.floor(getRandomArbitrary(0,27))];
+		individualName = individualName + alphabet[Math.floor(getRandomArbitrary(0,alphabet.length))];
 	}
 
 	var obj = {};
@@ -133,7 +133,7 @@ function generateNamePopulation(name)
 
 		for (var s = 0; s < nameSize; s++)
 		{
-			name = name + alphabet[Math.floor(getRandomArbitrary(0,27))];
+			name = name + alphabet[Math.floor(getRandomArbitrary(0,alphabet.length))];
 			
 		}
 
@@ -162,7 +162,7 @@ function mutateIndividual(individual)
 	var randForItem = Math.floor(getRandomArbitrary(0, nameSize));
 
 	// generate random index for alphabet
-	var randForAlphabet = Math.floor(getRandomArbitrary(0,27));
+	var randForAlphabet = Math.floor(getRandomArbitrary(0,alphabet.length));
 
 	// perform one letter mutation
 	individual.name = individual.name.replaceAt(randForItem, alphabet.charAt(randForAlphabet));
@@ -325,9 +325,6 @@ function evolve(name)
 
 // DEBUG AREA
 
-
-
-
 // crossover50(population[0],population[1]);
 // mutatePopulation(population);
 
@@ -346,4 +343,4 @@ function evolve(name)
 // console.log(getAllValuables(population));
 //console.log(generateIndividual("boom"));
 
-console.log(evolve("yllka skilja bonheur"));
+console.log(evolve("edlira skilja"));
