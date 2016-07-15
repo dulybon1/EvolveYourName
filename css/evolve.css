@@ -1,0 +1,45 @@
+
+h1
+{
+	padding-top: 70px;
+	margin-bottom: 100px;
+
+}
+
+.form-holder, .well
+{
+	width: 300px;
+	margin: 0 auto;
+	margin-bottom: 100px;
+}
+
+.button-holder
+{
+	margin-top: 100px;
+	opacity: 0.8;
+}
+
+
+.form-control, .well 
+{
+	opacity: 0.6;
+}
+
+/*input
+{
+	float: left;
+}
+
+button
+{
+	float: right;
+}*/
+
+.full {
+    background: url("../img/evolve.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    height:1000px;
+}

@@ -306,14 +306,7 @@ function evolve(name)
 		console.log(best);
 		console.log(population.length);
 
-		//console.log(population)
-
-		// while(fitnessLevel < name.length/4)
-		// {
-		// 	console.log("fitnessLevel: "+fitnessLevel);
-		// 	fitnessLevel++;
-		// 	console.log("fitnessLevel: "+fitnessLevel);
-		// }
+		$("#display-names").html(best.name);
 
 		
 	}
@@ -323,24 +316,12 @@ function evolve(name)
 
 }
 
-// DEBUG AREA
+$("#evolve-btn").click(function(){
 
-// crossover50(population[0],population[1]);
-// mutatePopulation(population);
+	var nameToEvolve = $("#name-text").val().toLowerCase();
+	evolve(nameToEvolve);
+})
 
-// calculateFitnessForAll(name,population);
 
-// sortPopulation(population)
 
-// console.log(population.length);
 
-// performCrossover(population);
-
-// console.log(population.length);
-
-// console.log(getTheBest(population));
-// console.log(getAllTheBests(population));
-// console.log(getAllValuables(population));
-//console.log(generateIndividual("boom"));
-
-console.log(evolve("edlira skilja"));
