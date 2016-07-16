@@ -52,4 +52,13 @@ helpers.getAllValuables = function (sortedPopulation)
 	return valuables;
 }
 
+// add an index to each individual
+helpers.indexThePopulation = function(population)
+{
+	for(var i= 0; i< population.length; i++)
+	{
+		population[i].index = i;
+	}
+}
+
 module.exports = helpers;

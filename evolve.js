@@ -4,9 +4,7 @@ var helpers = require("./custom-modules/helpers");
 var mutation = require("./custom-modules/mutation");
 var fit = require("./custom-modules/fit");
 var cross = require("./custom-modules/crossover");
-
-
-var population = [];
+var pop = require("./custom-modules/population.js");
 
 
 //	http://stackoverflow.com/questions/1431094/how-do-i-replace-a-character-at-a-particular-index-in-javascript
@@ -15,104 +13,53 @@ String.prototype.replaceAt=function(index, character) {
     return this.substr(0, index) + character + this.substr(index+character.length);
 }
 
-// add an index to each individual
-function indexThePopulation(population)
-{
-	for(var i= 0; i< population.length; i++)
-	{
-		population[i].index = i;
-	}
-}
-
-// this function generates and return an individual
-function generateIndividual(name)
-{
-	const nameSize = name.length;
-	var individualName = "";
-	for (var i = 0; i < nameSize; i++) 
-	{
-		individualName = individualName + constants.alphabet[Math.floor(helpers.getRandomArbitrary(0,constants.alphabet.length))];
-	}
-
-	var obj = {};
-	obj.name = individualName;
-
-	calculateFitness(name, obj);
-
-	return obj;
-}
-
-// this function generates a population
-function generateNamePopulation(name)
-{
-	const nameSize = name.length;
-
-	for (var i = 0; i < constants.initialPopulationSize; i++) 
-	{
-		//console.log("big for loop entered");
-		var name = "";
-
-		for (var s = 0; s < nameSize; s++)
-		{
-			name = name + constants.alphabet[Math.floor(helpers.getRandomArbitrary(0,constants.alphabet.length))];
-			
-		}
-
-		var obj = {};
-		obj.name = name;
-
-		population.push(obj);
-		//console.log(obj + " pushed");
-	}
-	
-}
 
 function evolve(name)
 {
 	var fitnessLevel = 0;
 
 	//generate the population
-	generateNamePopulation(name);
+	pop.generateNamePopulation(name);
 
 	//calculate their fitness
-	fit.calculateFitnessForAll(name, population);
+	fit.calculateFitnessForAll(name, pop.population);
 
 	//sort based on fitness
-	helpers.sortPopulation(population);
+	helpers.sortPopulation(pop.population);
 
 	// get the best
-	var best = helpers.getTheBest(population);
+	var best = helpers.getTheBest(pop.population);
 
 	//while the best fitness < name.length
 	while(best.fitness < name.length)
 	{
 		// mutate
-		mutation.mutatePopulation(population);
+		mutation.mutatePopulation(pop.population);
 
 		// perform crossover
-		cross.performCrossover(population);
+		cross.performCrossover(pop.population);
 
 		//calculate their fitness
-		fit.calculateFitnessForAll(name, population);
+		fit.calculateFitnessForAll(name, pop.population);
 
 		//sort based on fitness
-		helpers.sortPopulation(population);
+		helpers.sortPopulation(pop.population);
 
 		// the best element
-		best = helpers.getTheBest(population);
+		best = helpers.getTheBest(pop.population);
 
 		// length of valuables array
-		var valuablesLength = helpers.getAllValuables(population).length;
+		var valuablesLength = helpers.getAllValuables(pop.population).length;
 
 		console.log("valuables: " + valuablesLength);
 
-		console.log(population.length);
+		console.log(pop.population.length);
 
 		// limit population to 100000
-		population = population.slice(0, constants.maxPopulationSize);
+		pop.population = pop.population.slice(0, constants.maxPopulationSize);
 
 		console.log(best);
-		console.log(population.length);
+		console.log(pop.population.length);
 	
 	}
 
@@ -120,5 +67,5 @@ function evolve(name)
 
 }
 
-console.log(evolve("duly bonheur"));
+console.log(evolve("adrian leonard skilja-bonheur"));
 
