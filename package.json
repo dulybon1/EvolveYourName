@@ -1,0 +1,19 @@
+{
+  "name": "evolve-string",
+  "version": "1.0.0",
+  "description": "genetic algorithm to evolve names",
+  "main": "evolve.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dulybon1/EvolveYourName.git"
+  },
+  "author": "Duly Bonheur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dulybon1/EvolveYourName/issues"
+  },
+  "homepage": "https://github.com/dulybon1/EvolveYourName#readme"
+}
